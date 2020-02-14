@@ -1,10 +1,10 @@
-jsonvar = [
-    [1518618600000, 167.37],
-    [1518705000000, 172.99],
-    [1518791400000, 172.43],
-    [1519137000000, 171.85],
-    [1519223400000, 171.07]
-]
+// jsonvar = [
+//     [1518618600000, 167.37],
+//     [1518705000000, 172.99],
+//     [1518791400000, 172.43],
+//     [1519137000000, 171.85],
+//     [1519223400000, 171.07]
+// ]
 
 function toDateandTime(strDate) {
     return strDate.slice(4, 6) + "/" + strDate.slice(6, 8) + "/" + strDate.slice(0, 4) + " " + strDate.slice(8, 10) + ":" + strDate.slice(10, 12) + ":" + strDate.slice(12, 14);
@@ -21,6 +21,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         var dadoParsed = data.docs;
         var valormax;
+        $("#valComUSD").text(dadoParsed[0].bidvalue);
+        $("#valVenUSD").text(dadoParsed[0].askvalue);
+        $("#valMaxUSD").text(dadoParsed[0].maxbid);
+        $("#valMinUSD").text(dadoParsed[0].minbid);
+
         (dadoParsed.length > 1000 ? valormax = 1000 : valormax = dadoParsed.length)
         for (let index = valormax - 1; index > -1; index--) {
             // for (let index = 0; index < valormax; index++) {

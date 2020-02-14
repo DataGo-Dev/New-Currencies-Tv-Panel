@@ -4,6 +4,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         var dadoParsed = data.docs;
         var valormax;
+        $("#valComEUR").text(dadoParsed[0].bidvalue);
+        $("#valVenEUR").text(dadoParsed[0].askvalue);
+        $("#valMaxEUR").text(dadoParsed[0].maxbid);
+        $("#valMinEUR").text(dadoParsed[0].minbid);
+
         (dadoParsed.length > 1000 ? valormax = 1000 : valormax = dadoParsed.length)
         for (let index = valormax - 1; index > -1; index--) {
             // for (let index = 0; index < valormax; index++) {
