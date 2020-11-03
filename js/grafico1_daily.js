@@ -1,38 +1,21 @@
-// jsonvar = [
-//     [1518618600000, 167.37],
-//     [1518705000000, 172.99],
-//     [1518791400000, 172.43],
-//     [1519137000000, 171.85],
-//     [1519223400000, 171.07]
-// ]
-
-function toDateandTime(strDate) {
-    return strDate.slice(4, 6) + "/" + strDate.slice(6, 8) + "/" + strDate.slice(0, 4) + " " + strDate.slice(8, 10) + ":" + strDate.slice(10, 12) + ":" + strDate.slice(12, 14);
-}
-
-function toTimestamp(strDate) {
-    var datum = Date.parse(strDate);
-    return datum;
-}
-
 var dadoReadyUSD = [];
 document.addEventListener('DOMContentLoaded', function() {
-    $.getJSON('https://api.cotacoes.uol.com/currency/interday/list/years/?format=JSON&fields=bidvalue,askvalue,maxbid,minbid,variationbid,variationpercentbid,openbidvalue,date&currency=1&', function(data) {
+    $.getJSON('https://api.cotacoes.uol.com/currency/intraday/list/?format=JSON&fields=bidvalue,askvalue,maxbid,minbid,variationbid,variationpercentbid,openbidvalue,date&currency=1&', function(data) {
 
         var dadoParsed = data.docs;
         var valormax;
-        $("#valComUSD").text(dadoParsed[0].bidvalue);
-        $("#valVenUSD").text(dadoParsed[0].askvalue);
-        $("#valMaxUSD").text(dadoParsed[0].maxbid);
-        $("#valMinUSD").text(dadoParsed[0].minbid);
+        $("#valComUSD").text('R$ ' + dadoParsed[0].bidvalue.toFixed(4));
+        $("#valVenUSD").text('R$ ' + dadoParsed[0].askvalue.toFixed(4));
+        $("#valMaxUSD").text('R$ ' + dadoParsed[0].maxbid.toFixed(4));
+        $("#valMinUSD").text('R$ ' + dadoParsed[0].minbid.toFixed(4));
 
         (dadoParsed.length > 1000 ? valormax = 1000 : valormax = dadoParsed.length)
         for (let index = valormax - 1; index > -1; index--) {
             // for (let index = 0; index < valormax; index++) {
             // for (let index = 0; index < dadoParsed.length; index++) {
             var dataparsed = dadoParsed[index].date;
-            var datapadrao = toTimestamp(toDateandTime(dataparsed));
-            var valorpadrao = dadoParsed[index].askvalue;
+            var datapadrao = toTimestamp(toDateandTime(dataparsed)) - 10800000;
+            var valorpadrao = dadoParsed[index].bidvalue;
             // console.log(datapadrao)
 
             // var datapadrao = dataparsed.slice(6, 8) + "/" + dataparsed.slice(4, 6) + "/" + dataparsed.slice(0, 4) + " " + dataparsed.slice(8, 10) + ":" + dataparsed.slice(10, 12) + ":" + dataparsed.slice(12, 14);
@@ -51,6 +34,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 selected: 1,
                 enabled: true,
                 buttons: [{
+                    type: 'day',
+                    count: 1,
+                    text: '1d'
+                }, {
                     type: 'month',
                     count: 1,
                     text: '1m'
